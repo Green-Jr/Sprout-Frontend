@@ -330,8 +330,8 @@ export default function Dashboard() {
             </main>
 
             {/* Incluye el componente FrogAnimation aquí */}
-            <PinkmanAnimation />
-            <FrogAnimation />
+            {/* <PinkmanAnimation /> */}
+{/* <FrogAnimation /> */}
         </div>
     );
 }
