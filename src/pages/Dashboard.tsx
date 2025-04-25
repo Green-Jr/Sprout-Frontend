@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react"; // Importa useEffect
-import { AnimatePresence, motion, useAnimation } from "framer-motion";
+import { useState } from "react"; // Importa useEffect
+import { AnimatePresence, motion } from "framer-motion";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import jumpSprite from "../components/Game/assets/characters/Frog/Jump (32x32).png";
-import jumpSprite2 from "../components/Game/assets/characters/Pinkman/Jump Inverted (32x32).png";
+// import jumpSprite from "../components/Game/assets/characters/Frog/Jump (32x32).png";
+// import jumpSprite2 from "../components/Game/assets/characters/Pinkman/Jump Inverted (32x32).png";
 
 const SECTIONS = [
     {
@@ -64,136 +64,136 @@ const SECTIONS = [
     },
 ];
 
-function FrogAnimation() {
-    const controls = useAnimation();
-    const jumpHeight = 100; // Altura del salto
-    const jumpDistance = 80; // Distancia horizontal del salto
-    const jumpDurationUp = 2; // Duración más rápida para subir
-    const jumpDurationDown = 2.8; // Duración más lenta para bajar
+// function FrogAnimation() {
+//     const controls = useAnimation();
+//     const jumpHeight = 100; // Altura del salto
+//     const jumpDistance = 80; // Distancia horizontal del salto
+//     const jumpDurationUp = 2; // Duración más rápida para subir
+//     const jumpDurationDown = 2.8; // Duración más lenta para bajar
 
-    useEffect(() => {
-        const sequence = async () => {
-            while (true) {
-                // Salto hacia arriba-derecha (rápido)
-                await controls.start({
-                    x: jumpDistance,
-                    y: -jumpHeight,
-                    transition: {
-                        duration: jumpDurationUp,
-                        ease: [0.2, 0.65, 0.3, 0.9] // Aceleración rápida al inicio
-                    }
-                });
+//     useEffect(() => {
+//         const sequence = async () => {
+//             while (true) {
+//                 // Salto hacia arriba-derecha (rápido)
+//                 await controls.start({
+//                     x: jumpDistance,
+//                     y: -jumpHeight,
+//                     transition: {
+//                         duration: jumpDurationUp,
+//                         ease: [0.2, 0.65, 0.3, 0.9] // Aceleración rápida al inicio
+//                     }
+//                 });
                 
-                // Caída hacia abajo-izquierda (lenta)
-                await controls.start({
-                    x: -jumpDistance,
-                    y: 0,
-                    transition: {
-                        duration: jumpDurationDown,
-                        ease: [0.4, 0.1, 0.2, 0.9] // Desaceleración suave al final
-                    }
-                });
+//                 // Caída hacia abajo-izquierda (lenta)
+//                 await controls.start({
+//                     x: -jumpDistance,
+//                     y: 0,
+//                     transition: {
+//                         duration: jumpDurationDown,
+//                         ease: [0.4, 0.1, 0.2, 0.9] // Desaceleración suave al final
+//                     }
+//                 });
                 
-                // Pequeña pausa antes del siguiente salto
-                await controls.start({
-                    x: -jumpDistance,
-                    y: 0,
-                    transition: { duration: 0.3 }
-                });
-            }
-        };
+//                 // Pequeña pausa antes del siguiente salto
+//                 await controls.start({
+//                     x: -jumpDistance,
+//                     y: 0,
+//                     transition: { duration: 0.3 }
+//                 });
+//             }
+//         };
 
-        sequence();
+//         sequence();
 
-        return () => controls.stop(); // Limpieza al desmontar
-    }, [controls]);
+//         return () => controls.stop(); // Limpieza al desmontar
+//     }, [controls]);
 
-    return (
-        <motion.img
-            src={jumpSprite}
-            alt="Animated Frog"
-            style={{
-                position: "absolute",
-                left: "4rem",
-                top: "25%",
-                width: "256px",
-                height: "256px",
-                zIndex: 10,
-                pointerEvents: "none",
-                imageRendering: 'pixelated',
-            }}
-            initial={{ x: -jumpDistance, y: 0 }}
-            animate={controls}
-            // Eliminamos la referencia a direction o podemos reemplazarla con:
-            whileTap={{ rotate: [0, 10, -10, 0] }} // Pequeña animación de rotación al hacer tap
-        />
-    );
-}
+//     return (
+//         <motion.img
+//             src={jumpSprite}
+//             alt="Animated Frog"
+//             style={{
+//                 position: "absolute",
+//                 left: "4rem",
+//                 top: "25%",
+//                 width: "256px",
+//                 height: "256px",
+//                 zIndex: 10,
+//                 pointerEvents: "none",
+//                 imageRendering: 'pixelated',
+//             }}
+//             initial={{ x: -jumpDistance, y: 0 }}
+//             animate={controls}
+//             // Eliminamos la referencia a direction o podemos reemplazarla con:
+//             whileTap={{ rotate: [0, 10, -10, 0] }} // Pequeña animación de rotación al hacer tap
+//         />
+//     );
+// }
 
-function PinkmanAnimation() {
-    const controls = useAnimation();
-    const jumpHeight = 100; // Misma altura que Frog
-    const jumpDistance = 80; // Misma distancia que Frog
-    const jumpDurationUp = 2; // Misma duración que Frog
-    const jumpDurationDown = 2.8; // Misma duración que Frog
+// function PinkmanAnimation() {
+//     const controls = useAnimation();
+//     const jumpHeight = 100; // Misma altura que Frog
+//     const jumpDistance = 80; // Misma distancia que Frog
+//     const jumpDurationUp = 2; // Misma duración que Frog
+//     const jumpDurationDown = 2.8; // Misma duración que Frog
 
-    useEffect(() => {
-        const sequence = async () => {
-            while (true) {
-                // Salto hacia arriba-izquierda (rápido) - dirección opuesta a Frog
-                await controls.start({
-                    x: -jumpDistance, // Negativo para ir a la izquierda
-                    y: -jumpHeight,
-                    transition: {
-                        duration: jumpDurationUp,
-                        ease: [0.2, 0.65, 0.3, 0.9]
-                    }
-                });
+//     useEffect(() => {
+//         const sequence = async () => {
+//             while (true) {
+//                 // Salto hacia arriba-izquierda (rápido) - dirección opuesta a Frog
+//                 await controls.start({
+//                     x: -jumpDistance, // Negativo para ir a la izquierda
+//                     y: -jumpHeight,
+//                     transition: {
+//                         duration: jumpDurationUp,
+//                         ease: [0.2, 0.65, 0.3, 0.9]
+//                     }
+//                 });
                 
-                // Caída hacia abajo-derecha (lenta) - dirección opuesta a Frog
-                await controls.start({
-                    x: jumpDistance, // Positivo para ir a la derecha
-                    y: 0,
-                    transition: {
-                        duration: jumpDurationDown,
-                        ease: [0.4, 0.1, 0.2, 0.9]
-                    }
-                });
+//                 // Caída hacia abajo-derecha (lenta) - dirección opuesta a Frog
+//                 await controls.start({
+//                     x: jumpDistance, // Positivo para ir a la derecha
+//                     y: 0,
+//                     transition: {
+//                         duration: jumpDurationDown,
+//                         ease: [0.4, 0.1, 0.2, 0.9]
+//                     }
+//                 });
                 
-                // Pequeña pausa antes del siguiente salto
-                await controls.start({
-                    x: jumpDistance,
-                    y: 0,
-                    transition: { duration: 0.3 }
-                });
-            }
-        };
+//                 // Pequeña pausa antes del siguiente salto
+//                 await controls.start({
+//                     x: jumpDistance,
+//                     y: 0,
+//                     transition: { duration: 0.3 }
+//                 });
+//             }
+//         };
 
-        sequence();
+//         sequence();
 
-        return () => controls.stop();
-    }, [controls]);
+//         return () => controls.stop();
+//     }, [controls]);
 
-    return (
-        <motion.img
-            src={jumpSprite2} // Usamos el sprite de Pinkman
-            alt="Animated Pinkman"
-            style={{
-                position: "absolute",
-                right: "4rem", // Posicionado a la derecha en lugar de izquierda
-                top: "25%",
-                width: "256px",
-                height: "256px",
-                zIndex: 10,
-                pointerEvents: "none",
-                imageRendering: 'pixelated'
-            }}
-            initial={{ x: jumpDistance, y: 0 }} // Inicialmente en posición opuesta
-            animate={controls}
-            whileTap={{ rotate: [0, -10, 10, 0] }} // Rotación inversa
-        />
-    );
-}
+//     return (
+//         <motion.img
+//             src={jumpSprite2} // Usamos el sprite de Pinkman
+//             alt="Animated Pinkman"
+//             style={{
+//                 position: "absolute",
+//                 right: "4rem", // Posicionado a la derecha en lugar de izquierda
+//                 top: "25%",
+//                 width: "256px",
+//                 height: "256px",
+//                 zIndex: 10,
+//                 pointerEvents: "none",
+//                 imageRendering: 'pixelated'
+//             }}
+//             initial={{ x: jumpDistance, y: 0 }} // Inicialmente en posición opuesta
+//             animate={controls}
+//             whileTap={{ rotate: [0, -10, 10, 0] }} // Rotación inversa
+//         />
+//     );
+// }
 
 export default function Dashboard() {
     const [activeIndex, setActiveIndex] = useState(0);
