@@ -1,0 +1,11 @@
+{
+    "name":"service front",
+    "host":"localhost",
+    "port":"8000",
+    "protocolo":"http", 
+    
+    "url_server":{
+        "url_backend":"http://localhost:3030",
+        "path": "backend"
+    }
+}

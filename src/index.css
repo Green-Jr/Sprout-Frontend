@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Press Start 2P', cursive;
+  background: transparent !important;
+  overflow: hidden; /* Evita scroll raro */
+}
+
+canvas {
+  background: transparent !important;
+}
+
+.pixel-font {
+  font-family: 'Press Start 2P', cursive;
+}
+
+/* Oculta la barra de scroll en navegadores modernos */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* Internet Explorer y Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+.custom-scrollbar {
+  scrollbar-width: none; /* Firefox */
+}
+
+.triangle-up {
+  width: 0;
+  height: 0;
+  border-left: 14px solid transparent;
+  border-right: 14px solid transparent;
+  border-bottom: 20px solid #00ff00;
+}
+
+.triangle-down {
+  width: 0;
+  height: 0;
+  border-left: 14px solid transparent;
+  border-right: 14px solid transparent;
+  border-top: 20px solid #ff0000;
+}
+
+.triangle-up, .triangle-down {
+  animation: reflect 1.5s infinite ease-in-out;
+}
+/* Efecto de reflejo animado */
+@keyframes reflect {
+  0% { opacity: 1; }
+  50% { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+@keyframes pulse-pop {
+  0%, 100% { transform: scale(1) rotate(-30deg);}
+  50% { transform: scale(1.15) rotate(-30deg);}
+}
+
+@keyframes dots {
+  0% { content: ""; }
+  20% { content: "."; }
+  40% { content: ".."; }
+  60% { content: "..."; }
+  80% { content: ""; }
+  100% { content: ""; }
+}
+.animate-dots::after {
+  display: inline-block;
+  content: "";
+  animation: dots 1s steps(4, end) infinite;
+}
+
+.pulse-pop {
+  animation: pulse-pop 1s infinite;
+}
+
+/* Quitar flechitas en Chrome, Safari, Edge, Opera */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
