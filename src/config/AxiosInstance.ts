@@ -1,4 +1,5 @@
-import axios from "axios";
+// Importa InternalAxiosRequestConfig
+import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 import settings from "../data/settings.json"
 import { AxiosRepository } from "./AxiosRepository";
 
@@ -10,20 +11,30 @@ const axiosInstance = axios.create({
   timeout: 10000,
 });
 
+// Usa InternalAxiosRequestConfig para el parámetro y especifica el tipo de retorno de la promesa
 axiosInstance.interceptors.request.use(
-  async (config) => {
+  async (config: InternalAxiosRequestConfig): Promise<InternalAxiosRequestConfig> => { // <-- ¡Cambia el tipo del parámetro y especifica el retorno!
     // Añade los headers solo si existen
     const token = await AxiosRepository.getToken();
     const verify = await AxiosRepository.getVerify();
     const ip = await AxiosRepository.getIp();
 
-    if (token) config.headers["Authorization"] = `Bearer ${token}`;
-    if (verify) config.headers["verify"] = verify;
-    if (ip) config.headers["ip"] = ip;
+    // Ahora que TypeScript sabe que config.headers es AxiosRequestHeaders, puedes añadirle propiedades
+    // Ya no necesitas la comprobación `if (!config.headers)` porque el tipo InternalAxiosRequestConfig garantiza que existe
+    if (token) {
+       config.headers["Authorization"] = `Bearer ${token}`;
+    }
+    if (verify) {
+        config.headers["verify"] = verify;
+    }
+    if (ip) {
+        config.headers["ip"] = ip;
+    }
 
-    return config;
+    return config; // Devuelve el objeto de configuración modificado
   },
-  (error) => Promise.reject(error)
+  // El interceptor de error debería estar bien si AxiosError se puede importar
+  (error: AxiosError) => Promise.reject(error)
 );
 
 export default axiosInstance;
