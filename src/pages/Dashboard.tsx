@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { AnimatePresence, motion, useAnimation } from "framer-motion";
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import jumpSprite from "../components/Game/assets/characters/Frog/Jump (32x32).png";
 import jumpSprite2 from "../components/Game/assets/characters/Pinkman/Jump Inverted (32x32).png";
@@ -65,134 +65,119 @@ const SECTIONS = [
 ];
 
 function FrogAnimation() {
-    const controls = useAnimation();
     const jumpHeight = 80;
     const jumpDistance = 60;
-    const jumpDurationUp = 2;
-    const jumpDurationDown = 2.8;
-
-    useEffect(() => {
-        let isMounted = true;
-        
-        const sequence = async () => {
-            while (isMounted) {
-                await controls.start({
-                    x: jumpDistance,
-                    y: -jumpHeight,
-                    transition: {
-                        duration: jumpDurationUp,
-                        ease: [0.2, 0.65, 0.3, 0.9]
-                    }
-                });
-                
-                await controls.start({
-                    x: -jumpDistance,
-                    y: 0,
-                    transition: {
-                        duration: jumpDurationDown,
-                        ease: [0.4, 0.1, 0.2, 0.9]
-                    }
-                });
-                
-                await controls.start({
-                    x: -jumpDistance,
-                    y: 0,
-                    transition: { duration: 0.3 }
-                });
-            }
-        };
-
-        sequence();
-
-        return () => {
-            isMounted = false;
-            controls.stop();
-        };
-    }, [controls]);
-
+    const up = 2;
+    const down = 2.8;
+    const pause = 0.3;
+    const total = up + down + pause;
+  
     return (
-        <motion.img
-            src={jumpSprite}
-            alt="Animated Frog"
-            className="pointer-events-none"
-            style={{
-                position: "absolute",
-                left: "0%",
-                bottom: "0%",
-                width: "256px",
-                height: "256px",
-                imageRendering: 'pixelated',
-            }}
-            initial={{ x: -jumpDistance, y: 0 }}
-            animate={controls}
-        />
+      <motion.img
+        src={jumpSprite}
+        alt="Animated Frog"
+        className="pointer-events-none"
+        style={{
+          position: "absolute",
+          left: 0,
+          bottom: 0,
+          width: 256,
+          height: 256,
+          imageRendering: "pixelated",
+        }}
+        initial={{ x: -jumpDistance, y: 0 }}
+        animate={{
+          x: [
+            -jumpDistance,    // 0: start
+            jumpDistance,     // 1: far right (sube)
+            -jumpDistance,    // 2: vuelve abajo a la izquierda
+            -jumpDistance     // 3: pausa
+          ],
+          y: [
+            0,                // 0: start
+            -jumpHeight,      // 1: punto más alto
+            0,                // 2: vuelve al suelo
+            0                 // 3: pausa
+          ]
+        }}
+        transition={{
+          duration: total,
+          times: [
+            0,
+            up / total,                  // cuando termina de subir
+            (up + down) / total,         // cuando termina de bajar
+            1
+          ],
+          ease: [
+            [0.2, 0.65, 0.3, 0.9],        // ease al subir
+            [0.4, 0.1, 0.2, 0.9],         // ease al bajar
+            "linear"                      // pausa
+          ],
+          repeat: Infinity,
+          repeatType: "loop"
+        }}
+      />
     );
-}
-
-function PinkmanAnimation() {
-    const controls = useAnimation();
+  }
+  
+  
+  function PinkmanAnimation() {
     const jumpHeight = 80;
     const jumpDistance = 60;
-    const jumpDurationUp = 2;
-    const jumpDurationDown = 2.8;
-
-    useEffect(() => {
-        let isMounted = true;
-        
-        const sequence = async () => {
-            while (isMounted) {
-                await controls.start({
-                    x: -jumpDistance,
-                    y: -jumpHeight,
-                    transition: {
-                        duration: jumpDurationUp,
-                        ease: [0.2, 0.65, 0.3, 0.9]
-                    }
-                });
-                
-                await controls.start({
-                    x: jumpDistance,
-                    y: 0,
-                    transition: {
-                        duration: jumpDurationDown,
-                        ease: [0.4, 0.1, 0.2, 0.9]
-                    }
-                });
-                
-                await controls.start({
-                    x: jumpDistance,
-                    y: 0,
-                    transition: { duration: 0.3 }
-                });
-            }
-        };
-
-        sequence();
-
-        return () => {
-            isMounted = false;
-            controls.stop();
-        };
-    }, [controls]);
-
+    const up = 2;
+    const down = 2.8;
+    const pause = 0.3;
+    const total = up + down + pause;
+  
     return (
-        <motion.img
-            src={jumpSprite2}
-            alt="Animated Pinkman"
-            className="pointer-events-none"
-            style={{
-                position: "absolute",
-                right: "0%",
-                bottom: "0%",
-                width: "256px",
-                height: "256px",
-                imageRendering: 'pixelated'
-            }}
-            initial={{ x: jumpDistance, y: 0 }}
-            animate={controls}
-        />
+      <motion.img
+        src={jumpSprite2}
+        alt="Animated Pinkman"
+        className="pointer-events-none"
+        style={{
+          position: "absolute",
+          right: 0,
+          bottom: 0,
+          width: 256,
+          height: 256,
+          imageRendering: "pixelated",
+        }}
+        initial={{ x: jumpDistance, y: 0 }}
+        animate={{
+          x: [
+            jumpDistance,     // 0: start
+            -jumpDistance,    // 1: va a la izquierda (sube)
+            jumpDistance,     // 2: vuelve abajo a la derecha
+            jumpDistance      // 3: pausa
+          ],
+          y: [
+            0,                // 0: start
+            -jumpHeight,      // 1: punto más alto
+            0,                // 2: vuelve al suelo
+            0                 // 3: pausa
+          ]
+        }}
+        transition={{
+          duration: total,
+          times: [
+            0,
+            up / total,
+            (up + down) / total,
+            1
+          ],
+          ease: [
+            [0.2, 0.65, 0.3, 0.9],
+            [0.4, 0.1, 0.2, 0.9],
+            "linear"
+          ],
+          repeat: Infinity,
+          repeatType: "loop"
+        }}
+      />
     );
-}
+  }
+  
+  
 
 export default function Dashboard() {
     const [activeIndex, setActiveIndex] = useState(0);
@@ -232,7 +217,7 @@ export default function Dashboard() {
     return (
         <div className="min-h-screen bg-transparent text-green-500 flex flex-col items-center pixel-font relative">
             {/* NavBar sticky con mayor z-index */}
-            <nav className="w-full flex justify-between items-center px-8 py-4 pb-8 border-b-4 border-green-500 bg-black bg-opacity-80 sticky top-0 z-50 space-x-2 backdrop-blur-sm">
+            <nav className="w-full flex justify-between items-center px-8 py-4 pb-8 border-b-4 border-green-500 bg-transparent bg-opacity-80 sticky top-0 z-50 space-x-2 backdrop-blur-sm">
                 <div className="flex items-center space-x-4">
                     <span className="font-bold text-2xl">Sprout App</span>
                     {SECTIONS.map((section, idx) => (

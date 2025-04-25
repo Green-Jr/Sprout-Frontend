@@ -30,7 +30,7 @@ export default function HeaderAuth({ text, link, icon }: HeaderAuthProps) {
 
   return (
     <>
-      <header className="fixed top-0 left-0 w-full py-4 bg-transparent border-b-2 border-green-500 z-10">
+      <header className="fixed top-0 left-0 w-full py-4 bg-transparent border-b-2 border-green-500 z-10 backdrop-blur-sm">
         <div className="flex justify-between items-center px-6">
           {/* Logo e icono */}
           <div className="flex items-center space-x-3">
