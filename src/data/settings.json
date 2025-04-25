@@ -5,7 +5,7 @@
     "protocolo":"http", 
     
     "url_server":{
-        "url_backend":"sprout-backend.railway.internal",
+        "url_backend":"https://sprout-backend-production.up.railway.app",
         "path": "backend"
     }
 }
