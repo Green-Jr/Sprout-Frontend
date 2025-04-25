@@ -25,7 +25,7 @@ export default function HeaderAuth({ text, link, icon }: HeaderAuthProps) {
     localStorage.removeItem("missions_claimed");
     localStorage.removeItem("active_missions");
     localStorage.removeItem("missions_last_rotate");
-    navigate("/login");
+    navigate("/");
   };
 
   return (
