@@ -63,9 +63,7 @@ export default function SproutRun({ onGameEnd }: { onGameEnd: (coins: number, co
     let currentAnim = "idle";
     let isDoubleJumping = false;
     let isJumping = false;
-    let backgroundMusic: Phaser.Sound.BaseSound;
-
-    // Tamaño de la ventana grande
+    let backgroundMusic: any;    // Tamaño de la ventana grande
     const GAME_WIDTH = 1000;
     const GAME_HEIGHT = 600;
 
@@ -242,6 +240,7 @@ export default function SproutRun({ onGameEnd }: { onGameEnd: (coins: number, co
 
       // Configurar y reproducir la música de fondo
       backgroundMusic = this.sound.add('backgroundMusic', { loop: true });
+      backgroundMusic.setVolume(0.3);
 
       // Manejar la política de autoplay del navegador
       if (this.sound.locked) {

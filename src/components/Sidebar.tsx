@@ -80,7 +80,7 @@ const ALL_MISSIONS = [
 const MISSIONS_KEY = "active_missions";
 const MISSION_ROTATE_KEY = "missions_last_rotate";
 const MISSION_CLAIMED_KEY = "missions_claimed";
-const MISSION_ROTATE_INTERVAL = 1000 * 60 * 3; // 3 minutos
+const MISSION_ROTATE_INTERVAL = 1000 * 60 * 6; // 3 minutos
 
 function getRandomMissions(claimedIds: string[], count = 3) {
     const available = ALL_MISSIONS.filter(m => !claimedIds.includes(m.id));

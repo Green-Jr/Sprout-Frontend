@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
@@ -28,6 +27,7 @@ const OtpModal: React.FC<OtpModalProps> = ({
 }) => {
   const [otp, setOtp] = useState<string[]>(Array(OTP_LENGTH).fill(""));
   const inputsRef = useRef<Array<HTMLInputElement | null>>([]);
+  const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (open) setOtp(Array(OTP_LENGTH).fill(""));
@@ -51,7 +51,6 @@ const OtpModal: React.FC<OtpModalProps> = ({
     }
   };
 
-  // Manejar pegado del código completo
   const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
     e.preventDefault();
     const paste = e.clipboardData.getData("text").trim();
@@ -78,10 +77,14 @@ const OtpModal: React.FC<OtpModalProps> = ({
     onSubmit(otpValue);
   };
 
+  // Función para determinar si el correo es largo
+  const isLongEmail = email.length > 30;
+
   return (
     <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50" onClick={e => { if (e.target === e.currentTarget) onClose(); }}>
       <div
-        className="relative bg-[#101c16] border-4 border-green-500 rounded-2xl p-8 min-w-[320px] w-[92vw] max-w-md flex flex-col items-center shadow-2xl animate-fade-in"
+        ref={modalRef}
+        className={`relative bg-[#101c16] border-4 border-green-500 rounded-2xl p-6 ${isLongEmail ? 'min-w-[350px] w-[92vw] max-w-lg' : 'min-w-[320px] w-[92vw] max-w-md'} flex flex-col items-center shadow-2xl animate-fade-in`}
         style={{ fontFamily: "inherit" }}
         onClick={e => e.stopPropagation()}
       >
@@ -94,12 +97,23 @@ const OtpModal: React.FC<OtpModalProps> = ({
         >
           <FontAwesomeIcon icon={faTimes} />
         </button>
+        
         <h2 className="w-full text-center text-2xl font-bold text-green-400 mb-4 pixel-font tracking-wide">{title}</h2>
+        
         <p className="text-green-200 mb-4 text-center">
           {description}
-          <br />
-          <span className="font-bold">{email}</span>
         </p>
+        
+        {/* Contenedor del correo con ajuste para texto largo */}
+        <div className={`w-full mb-4 ${isLongEmail ? 'px-2' : 'px-0'}`}>
+          <p 
+            className={`font-bold text-green-300 text-center ${isLongEmail ? 'text-sm break-all px-2' : 'text-base'}`}
+            title={email} // Tooltip con el correo completo
+          >
+            {email}
+          </p>
+        </div>
+        
         <div className="flex justify-center gap-2 mb-4">
           {Array.from({ length: OTP_LENGTH }).map((_, idx) => (
             <input
@@ -119,7 +133,9 @@ const OtpModal: React.FC<OtpModalProps> = ({
             />
           ))}
         </div>
+        
         {error && <div className="text-red-400 mb-2 text-sm text-center">{error}</div>}
+        
         <div className="flex gap-2 w-full">
           <button
             className="flex-1 p-3 bg-green-500 text-black pixel-font rounded-lg font-bold hover:bg-green-600 hover:text-white transition-all text-lg"
@@ -130,6 +146,7 @@ const OtpModal: React.FC<OtpModalProps> = ({
           </button>
         </div>
       </div>
+      
       <style>
         {`
           @keyframes fade-in {
